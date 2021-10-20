@@ -11,12 +11,10 @@ namespace Alura.LeilaoOnline.WebApp.Controllers
     public class LeilaoController : Controller
     {
 
-        AppDbContext _context;
         LeilaoDao _leilaoDao;
 
         public LeilaoController()
         {
-            _context = new AppDbContext();
             _leilaoDao = new LeilaoDao();
         }
 
