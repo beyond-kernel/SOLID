@@ -1,7 +1,7 @@
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Alura.LeilaoOnline.WebApp.Dados;
+using Alura.LeilaoOnline.WebApp.Dados.EfCore;
 using Alura.LeilaoOnline.WebApp.Models;
 using System;
 using System.Collections.Generic;
@@ -11,11 +11,11 @@ namespace Alura.LeilaoOnline.WebApp.Controllers
     public class LeilaoController : Controller
     {
 
-        LeilaoDao _leilaoDao;
+        LeilaoDaoComEfCore _leilaoDao;
 
         public LeilaoController()
         {
-            _leilaoDao = new LeilaoDao();
+            _leilaoDao = new LeilaoDaoComEfCore();
         }
 
         public IActionResult Index()
@@ -96,7 +96,7 @@ namespace Alura.LeilaoOnline.WebApp.Controllers
         public IActionResult Remove(int id)
         {
             var leilao = _leilaoDao.BuscarPorId(id);
-            if (leilao == null) return NotFound();
+            if (leilao == null || string.IsNullOrEmpty(leilao.Descricao)) return NotFound();
             if (leilao.Situacao == SituacaoLeilao.Pregao) return StatusCode(405);
             _leilaoDao.Alterar(leilao);
             return NoContent();
